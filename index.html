@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Tobyaz | Café Cocina Express & Terraza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        espresso: {
+                            50: '#FDFBF7',
+                            100: '#F7F2EA',
+                            200: '#EAE0D0',
+                            300: '#D6C3A5',
+                            400: '#BDA077',
+                            500: '#9E7E52',
+                            600: '#7F603B',
+                            700: '#61482D',
+                            800: '#433120',
+                            900: '#2A1F15',
+                            950: '#1A120B'
+                        },
+                        terracotta: {
+                            500: '#D96B43',
+                            600: '#C2532D',
+                        },
+                        cream: '#FDFBF7',
+                        sage: {
+                            500: '#5B7065',
+                            600: '#45564D'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        pulseSlow: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' }
+                        }
+                    },
+                    animation: {
+                        fadeIn: 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        pulseSlow: 'pulseSlow 3s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(26, 18, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-espresso-50 text-espresso-950 font-sans antialiased selection:bg-terracotta-500 selection:text-white">
+
+    <!-- Sticky Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-40 transition-all duration-300" id="navbar">
+        <nav class="glass-nav border-b border-espresso-800/40 text-espresso-100 px-4 lg:px-8 py-3.5">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-terracotta-500 flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
+                        T
+                    </div>
+                    <div>
+                        <span class="font-serif font-bold text-xl tracking-tight block text-white group-hover:text-terracotta-500 transition-colors">Café Tobyaz</span>
+                        <span class="text-[10px] tracking-widest uppercase block text-espresso-300 font-semibold">Café Cocina Express</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-terracotta-500 transition-colors">El Centro de Reunión</a>
+                    <a href="#terrace" class="hover:text-terracotta-500 transition-colors">Terraza al Aire Libre</a>
+                    <a href="#menu" class="hover:text-terracotta-500 transition-colors">Menú Express</a>
+                    <a href="#community" class="hover:text-terracotta-500 transition-colors">Comunidad & Eventos</a>
+                    <a href="#location" class="hover:text-terracotta-500 transition-colors">Ubicación</a>
+                </div>
+
+                <!-- Right Actions: Status & Quick Cart -->
+                <div class="flex items-center gap-3">
+                    <!-- Open/Closed Indicator Pill -->
+                    <div class="hidden sm:flex items-center gap-2 bg-espresso-900/80 border border-espresso-700/50 px-3 py-1.5 rounded-full text-xs font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-espresso-200">Abierto Hoy</span>
+                    </div>
+
+                    <!-- Express Cart Toggle -->
+                    <button onclick="toggleCart()" class="relative bg-espresso-800 hover:bg-espresso-700 text-white p-2.5 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-terracotta-500" aria-label="Ver pedido express">
+                        <i class="fa-solid fa-bag-shopping text-base"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-terracotta-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-espresso-950 scale-0 transition-transform">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-espresso-200 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Nav Drawer -->
+            <div id="mobile-menu" class="hidden md:hidden pt-4 pb-3 px-2 border-t border-espresso-800/60 mt-3 space-y-3">
+                <a href="#about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-espresso-900 text-espresso-200">El Centro de Reunión</a>
+                <a href="#terrace" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-espresso-900 text-espresso-200">Terraza al Aire Libre</a>
+                <a href="#menu" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-espresso-900 text-espresso-200">Menú Express</a>
+                <a href="#community" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-espresso-900 text-espresso-200">Comunidad & Eventos</a>
+                <a href="#location" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-espresso-900 text-espresso-200">Ubicación & Horarios</a>
+                <div class="pt-2">
+                    <button onclick="openModal(); toggleMobileMenu();" class="w-full bg-terracotta-500 text-white py-2.5 rounded-xl font-semibold text-sm shadow-md">
+                        Reservar Mesa Exterior
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen pt-28 pb-16 flex items-center justify-center bg-espresso-950 text-white overflow-hidden">
+        <!-- Background Ambient Image with Gradient Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=2000&q=80" alt="Café Tobyaz Terraza" class="w-full h-full object-cover opacity-35 filter brightness-90">
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950 via-espresso-950/70 to-espresso-950/30"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta-500/20 border border-terracotta-500/40 text-terracotta-500 text-xs sm:text-sm font-semibold tracking-wide uppercase mb-6 backdrop-blur-sm animate-fadeIn">
+                <i class="fa-solid fa-heart"></i> El Punto de Encuentro del Barrio
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+                Donde las buenas charlas <br class="hidden sm:inline">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-espresso-300 via-terracotta-500 to-amber-200 italic font-normal">encuentran su mesa.</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-espresso-200 mb-8 leading-relaxed">
+                Un pequeño rincón con alma grande. Café de especialidad recien tostado, cocina rápida artesanal y mesas al aire libre hechas para compartir historias, proyectos o simplemente ver la tarde pasar.
+            </p>
+
+            <!-- Hero Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+                <a href="#menu" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold px-8 py-4 rounded-xl shadow-xl hover:shadow-terracotta-500/20 transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-mug-hot"></i>
+                    Ver Menú Express
+                </a>
+                <button onclick="openModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-espresso-900/90 hover:bg-espresso-800 border border-espresso-700 text-espresso-100 font-semibold px-8 py-4 rounded-xl backdrop-blur-md transition-all hover:border-espresso-500">
+                    <i class="fa-solid fa-chair"></i>
+                    Reservar Mesa al Aire Libre
+                </button>
+            </div>
+
+            <!-- Quick Feature Highlights Bar -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-left border-t border-espresso-800/60 pt-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-espresso-900 border border-espresso-800 flex items-center justify-center text-terracotta-500 flex-shrink-0">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-white">Terraza Soleada</h4>
+                        <p class="text-xs text-espresso-400">Mesas al aire libre</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-espresso-900 border border-espresso-800 flex items-center justify-center text-terracotta-500 flex-shrink-0">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-white">Cocina Express</h4>
+                        <p class="text-xs text-espresso-400">Sabores frescos al instante</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-espresso-900 border border-espresso-800 flex items-center justify-center text-terracotta-500 flex-shrink-0">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-white">Wi-Fi Ultrarrápido</h4>
+                        <p class="text-xs text-espresso-400">Ideal para trabajar</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-espresso-900 border border-espresso-800 flex items-center justify-center text-terracotta-500 flex-shrink-0">
+                        <i class="fa-solid fa-paw"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-white">100% Pet Friendly</h4>
+                        <p class="text-xs text-espresso-400">Agua helada para tu mascota</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section: El Centro de Reunión -->
+    <section id="about" class="py-20 lg:py-28 bg-espresso-50 text-espresso-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+                <!-- Left Narrative Column -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-terracotta-600 font-semibold text-xs uppercase tracking-widest">
+                        <span class="w-8 h-px bg-terracotta-500"></span> Nuestra Esencia
+                    </div>
+
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso-950 leading-tight">
+                        Pequeño en metros cuadrados, <span class="italic font-normal text-terracotta-600">gigante en comunidad.</span>
+                    </h2>
+
+                    <p class="text-espresso-800 text-base sm:text-lg leading-relaxed">
+                        Nacimos con una idea clara: ser la extensión de tu sala de estar. <strong>Café Tobyaz</strong> combina la agilidad de la cocina moderna express con la calidez del café de barra tradicional. Aquí coinciden el freelancer con su laptop, los viejos amigos compartiendo un croissant y los vecinos en sus paseos matutinos con sus mascotas.
+                    </p>
+
+                    <p class="text-espresso-700 text-sm sm:text-base leading-relaxed">
+                        Nuestra terraza no es solo un conjunto de sillas afueras; es la plaza pública interactiva del barrio. Un espacio pensado para inspirar conversación, desconectarse de la prisa urbana y saborear platillos hechos con ingredientes locales preparados al instante.
+                    </p>
+
+                    <!-- Feature Badges -->
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-xl bg-espresso-100/80 border border-espresso-200">
+                            <i class="fa-solid fa-seedling text-terracotta-500 text-xl mb-2"></i>
+                            <h4 class="font-semibold text-espresso-900 text-sm">Granos de Origen Local</h4>
+                            <p class="text-xs text-espresso-700 mt-1">Tueste semanal exclusivo con perfil notas a avellana y cacao.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-espresso-100/80 border border-espresso-200">
+                            <i class="fa-solid fa-clock-fast text-terracotta-500 text-xl mb-2"></i>
+                            <h4 class="font-semibold text-espresso-900 text-sm">Cocina Express Real</h4>
+                            <p class="text-xs text-espresso-700 mt-1">Sándwiches, bowls y repostería sin esperas innecesarias.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Collage -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Interior Café Tobyaz" class="w-full h-[420px] object-cover hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Secondary Overlapping Image -->
+                    <div class="absolute -bottom-8 -left-8 z-20 w-3/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white hidden sm:block">
+                        <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80" alt="Mesas al aire libre café" class="w-full h-48 object-cover">
+                    </div>
+                    <!-- Floating Badge Card -->
+                    <div class="absolute -top-6 -right-6 z-20 bg-espresso-900 text-white p-5 rounded-2xl shadow-xl max-w-[200px] text-center border border-espresso-700">
+                        <div class="text-3xl font-serif font-bold text-terracotta-500 mb-1">+4,8★</div>
+                        <div class="text-xs font-medium text-espresso-200">Valoración de más de 1,200 vecinos en el barrio</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Terrace Experience Section -->
+    <section id="terrace" class="py-20 bg-espresso-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-terracotta-500 font-semibold text-xs tracking-widest uppercase block mb-3">Tu Lugar al Aire Libre</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mb-4">
+                    La Terraza Tobyaz
+                </h2>
+                <p class="text-espresso-300 text-base sm:text-lg">
+                    Diseñada para disfrutar en cualquier época del año. Tendederos de luces cálidas, sombra natural bajo sombrillas en el día y un ambiente relajado que te invita a quedarte.
+                </p>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-espresso-950/80 rounded-2xl p-8 border border-espresso-800 hover:border-terracotta-500/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-terracotta-500/10 border border-terracotta-500/30 text-terracotta-500 flex items-center justify-center text-2xl mb-6 group-hover:bg-terracotta-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-3">Climatización Natural</h3>
+                    <p class="text-espresso-300 text-sm leading-relaxed">
+                        Áreas sombreadas en verano para un café frío refrescante y calentadores portátiles para disfrutar la terraza en las mañanas o noches frescas.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-espresso-950/80 rounded-2xl p-8 border border-espresso-800 hover:border-terracotta-500/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-terracotta-500/10 border border-terracotta-500/30 text-terracotta-500 flex items-center justify-center text-2xl mb-6 group-hover:bg-terracotta-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-laptop-house"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-3">Oficina al Aire Libre</h3>
+                    <p class="text-espresso-300 text-sm leading-relaxed">
+                        Mesas equipadas con enchufes de fácil acceso y Wi-Fi de alta velocidad simétrica para que tu jornada de teletrabajo tenga el mejor aire fresco.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-espresso-950/80 rounded-2xl p-8 border border-espresso-800 hover:border-terracotta-500/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-terracotta-500/10 border border-terracotta-500/30 text-terracotta-500 flex items-center justify-center text-2xl mb-6 group-hover:bg-terracotta-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-dog"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-3">Comunidad Pet-Friendly</h3>
+                    <p class="text-espresso-300 text-sm leading-relaxed">
+                        Tus amigos de cuatro patas siempre son bienvenidos. Contamos con estaciones de agua fresca y bocadillos artesanales para ellos en barra.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Outdoor Seating Booking Banner -->
+            <div class="mt-12 bg-gradient-to-r from-terracotta-600 to-terracotta-500 rounded-2xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+                <div>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">¿Vienes en grupo o reunión especial?</h3>
+                    <p class="text-white/90 text-sm sm:text-base">Asegura tu mesa en la terraza exterior con anticipación.</p>
+                </div>
+                <button onclick="openModal()" class="bg-espresso-950 hover:bg-espresso-900 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg transition-all flex-shrink-0">
+                    Asegurar Mi Mesa 外
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Section -->
+    <section id="menu" class="py-20 lg:py-28 bg-espresso-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-terracotta-600 font-semibold text-xs tracking-widest uppercase block mb-2">Preparado al Momento</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-espresso-950">Menú Café & Cocina Express</h2>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative min-w-[280px]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-espresso-400"></i>
+                    <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Buscar tostado, latte, matcha..." class="w-full pl-11 pr-4 py-3 bg-white border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500 shadow-sm">
+                </div>
+            </div>
+
+            <!-- Menu Category Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-10 hide-scrollbar border-b border-espresso-200" id="category-tabs">
+                <button onclick="setActiveCategory('all')" class="category-btn active px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap transition-all bg-espresso-950 text-white shadow-sm">
+                    Todos los productos
+                </button>
+                <button onclick="setActiveCategory('espresso')" class="category-btn px-5 py-2.5 rounded-full font-medium text-sm text-espresso-700 hover:bg-espresso-200/60 whitespace-nowrap transition-all">
+                    ☕ Cafetería & Barista
+                </button>
+                <button onclick="setActiveCategory('cocina')" class="category-btn px-5 py-2.5 rounded-full font-medium text-sm text-espresso-700 hover:bg-espresso-200/60 whitespace-nowrap transition-all">
+                    🥪 Cocina Express & Sándwiches
+                </button>
+                <button onclick="setActiveCategory('frias')" class="category-btn px-5 py-2.5 rounded-full font-medium text-sm text-espresso-700 hover:bg-espresso-200/60 whitespace-nowrap transition-all">
+                    🍹 Bebidas Frías & Cold Brew
+                </button>
+                <button onclick="setActiveCategory('postres')" class="category-btn px-5 py-2.5 rounded-full font-medium text-sm text-espresso-700 hover:bg-espresso-200/60 whitespace-nowrap transition-all">
+                    🍰 Repostería de Casa
+                </button>
+            </div>
+
+            <!-- Menu Grid Container -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Callout Note -->
+            <div class="mt-12 bg-espresso-100 p-6 rounded-2xl border border-espresso-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-leaf text-terracotta-500 text-2xl"></i>
+                    <p class="text-xs sm:text-sm text-espresso-800">
+                        <strong>¿Alergias o preferencias?</strong> Contamos con leches vegetales (Avena, Almendra, Soya) sin costo extra y opciones gluten-free.
+                    </p>
+                </div>
+                <button onclick="toggleCart()" class="text-terracotta-600 font-semibold text-xs uppercase tracking-wider hover:underline whitespace-nowrap">
+                    Revisar Mi Pedido Express →
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Community & Events Section: "El Tablón de Tobyaz" -->
+    <section id="community" class="py-20 bg-espresso-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-terracotta-500 font-semibold text-xs tracking-widest uppercase block mb-2">Comunidad Viva</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mb-4">El Tablón del Barrio</h2>
+                <p class="text-espresso-300 text-sm sm:text-base">
+                    En Tobyaz siempre está pasando algo. Desde tertulias culturales hasta mañanas de cowork comunitario.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Event 1 -->
+                <div class="bg-espresso-900 rounded-2xl overflow-hidden border border-espresso-800 flex flex-col hover:border-terracotta-500/40 transition-all">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Música en Vivo" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-terracotta-500 text-white font-bold text-xs px-3 py-1 rounded-full">
+                            Todos los Jueves
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-espresso-400 mb-2">19:00 hrs • Terraza Exterior</div>
+                            <h3 class="font-serif text-xl font-bold text-white mb-2">Noches Acústicas al Aire Libre</h3>
+                            <p class="text-espresso-300 text-xs sm:text-sm leading-relaxed mb-4">
+                                Talentos locales del barrio presentan sesiones acústicas en vivo mientras disfrutas nuestro vino artesanal o café espresso.
+                            </p>
+                        </div>
+                        <a href="#location" class="inline-flex items-center gap-2 text-xs font-semibold text-terracotta-500 hover:text-terracotta-400">
+                            Ver detalles de asistencia <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="bg-espresso-900 rounded-2xl overflow-hidden border border-espresso-800 flex flex-col hover:border-terracotta-500/40 transition-all">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" alt="Club de lectura" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-terracotta-500 text-white font-bold text-xs px-3 py-1 rounded-full">
+                            Sábados Alternados
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-espresso-400 mb-2">10:30 hrs • Mesa Central</div>
+                            <h3 class="font-serif text-xl font-bold text-white mb-2">Club de Lectura & Café Barista</h3>
+                            <p class="text-espresso-300 text-xs sm:text-sm leading-relaxed mb-4">
+                                Compartimos impresiones del libro del mes con una taza de origen único cortesía de la casa para los participantes.
+                            </p>
+                        </div>
+                        <a href="#location" class="inline-flex items-center gap-2 text-xs font-semibold text-terracotta-500 hover:text-terracotta-400">
+                            Inscribirse al grupo <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="bg-espresso-900 rounded-2xl overflow-hidden border border-espresso-800 flex flex-col hover:border-terracotta-500/40 transition-all">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=600&q=80" alt="Taller de café" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-terracotta-500 text-white font-bold text-xs px-3 py-1 rounded-full">
+                            Primer Domingo de Mes
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-espresso-400 mb-2">11:00 hrs • Barra Principal</div>
+                            <h3 class="font-serif text-xl font-bold text-white mb-2">Taller Rápido de Filtrados en Casa</h3>
+                            <p class="text-espresso-300 text-xs sm:text-sm leading-relaxed mb-4">
+                                Aprende las proporciones de V60, Prensa Francesa y Aeropress con nuestro Head Barista en una sesión de 45 min.
+                            </p>
+                        </div>
+                        <a href="#location" class="inline-flex items-center gap-2 text-xs font-semibold text-terracotta-500 hover:text-terracotta-400">
+                            Reservar lugar <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neighborhood Reviews Section -->
+    <section class="py-20 bg-espresso-100 text-espresso-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-terracotta-600 font-semibold text-xs tracking-widest uppercase block mb-2">Historias Reales</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso-950">Lo que dice la comunidad</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-espresso-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-500 text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-espresso-800 text-sm leading-relaxed mb-6 italic">
+                            "Mi oficina matutina por excelencia. Pedir el Tostado de Aguacate en la terraza con un Flat White bien tirado es la mejor forma de arrancar mi jornada laboral."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-espresso-100 pt-4">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Valeria G." class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">Valeria M.</h4>
+                            <p class="text-xs text-espresso-500">Diseñadora / Vecina del barrio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-espresso-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-500 text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-espresso-800 text-sm leading-relaxed mb-6 italic">
+                            "Paseo con mi perro Toby todos los días por aquí. El detalle de que tengan agua fresca y platitos para mascotas en las mesas de afuera me ganó por completo."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-espresso-100 pt-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Carlos R." class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">Carlos & "Max"</h4>
+                            <p class="text-xs text-espresso-500">Habituales de la mañana</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-espresso-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-500 text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-espresso-800 text-sm leading-relaxed mb-6 italic">
+                            "La cocina express realmente cumple: pides en barra y en menos de 7 minutos tienes un sándwich caliente de pastrami increíble con pan ciabatta artesanal."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-espresso-100 pt-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Fernanda P." class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">Fernanda P.</h4>
+                            <p class="text-xs text-espresso-500">Estudiante Universitaria</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Operating Hours Section -->
+    <section id="location" class="py-20 lg:py-28 bg-espresso-50 text-espresso-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Contact & Schedule Info Card -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <span class="text-terracotta-600 font-semibold text-xs tracking-widest uppercase block mb-2">Visítanos Hoy</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso-950 mb-4">
+                            Ubicación & Horarios
+                        </h2>
+                        <p class="text-espresso-700 text-sm sm:text-base">
+                            Estamos ubicados en la esquina más acogedora de la zona residencial, listos para recibirte.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-white border border-espresso-200">
+                            <div class="w-10 h-10 rounded-lg bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-espresso-900">Dirección</h4>
+                                <p class="text-xs text-espresso-700 mt-0.5">Av. Central #450, Esquina Los Cerezos, Col. Del Valle</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-white border border-espresso-200">
+                            <div class="w-10 h-10 rounded-lg bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-clock text-lg"></i>
+                            </div>
+                            <div class="w-full">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-sm text-espresso-900">Horarios de Atención</h4>
+                                    <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Abierto</span>
+                                </div>
+                                <div class="mt-2 text-xs text-espresso-700 space-y-1">
+                                    <div class="flex justify-between"><span>Lunes a Viernes:</span> <span class="font-medium">7:00 AM – 9:30 PM</span></div>
+                                    <div class="flex justify-between"><span>Sábados y Domingos:</span> <span class="font-medium">8:00 AM – 10:00 PM</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-white border border-espresso-200">
+                            <div class="w-10 h-10 rounded-lg bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-espresso-900">WhatsApp & Pedidos Express</h4>
+                                <p class="text-xs text-espresso-700 mt-0.5">+52 (55) 8765-4321</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Action buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="https://maps.google.com" target="_blank" class="inline-flex items-center justify-center gap-2 bg-espresso-950 text-white font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-espresso-900 transition-colors">
+                            <i class="fa-solid fa-route"></i> Abrir en Google Maps
+                        </a>
+                        <button onclick="openModal()" class="inline-flex items-center justify-center gap-2 bg-terracotta-500 text-white font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-terracotta-600 transition-colors">
+                            <i class="fa-solid fa-calendar-check"></i> Reservar Mesa Externa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Styled Map Box -->
+                <div class="lg:col-span-7">
+                    <div class="relative w-full h-[400px] sm:h-[480px] bg-espresso-200 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+                        <!-- Custom Stylized Interactive Map Mock / iFrame Embed -->
+                        <iframe
+                            class="w-full h-full filter contrast-105 opacity-90"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.504822765275!2d-99.16788868509395!3d19.39050998690856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTksMzknMjUuOCJOIDk5wrAwOSc5Ni40Ilc!5e0!3m2!1ses!2smx!4v1650000000000!5m2!1ses!2smx"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                        </iframe>
+                        <!-- Map Overlay Badge -->
+                        <div class="absolute top-4 left-4 bg-espresso-950 text-white p-3 rounded-xl shadow-lg border border-espresso-800 text-xs flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-terracotta-500 animate-ping"></div>
+                            <div>
+                                <span class="font-bold block">Café Tobyaz</span>
+                                <span class="text-espresso-300">Mesas exteriores disponibles</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Express Order / Cart Slide Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+        <!-- Backdrop -->
+        <div onclick="toggleCart()" class="absolute inset-0 bg-espresso-950/60 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white text-espresso-950 shadow-2xl p-6 flex flex-col justify-between pointer-events-auto transform translate-x-full transition-transform duration-300" id="cart-panel">
+
+            <!-- Drawer Header -->
+            <div>
+                <div class="flex items-center justify-between border-b border-espresso-200 pb-4 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-terracotta-600 text-xl"></i>
+                        <h3 class="font-serif text-xl font-bold">Tu Orden Express</h3>
+                    </div>
+                    <button onclick="toggleCart()" class="text-espresso-400 hover:text-espresso-900 p-2 text-xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <p class="text-xs text-espresso-600 mb-4">
+                    Agrega tus productos preferidos para pasar a recoger en barra o consumir en nuestras mesas al aire libre.
+                </p>
+
+                <!-- Cart Items List -->
+                <div id="cart-items-list" class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+                    <!-- Items injected via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Drawer Footer -->
+            <div class="border-t border-espresso-200 pt-4 space-y-4">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-espresso-600">Subtotal:</span>
+                    <span id="cart-subtotal" class="font-bold text-lg text-espresso-950">$0.00</span>
+                </div>
+
+                <!-- Pickup Option radio buttons -->
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold text-espresso-800 block">Modalidad de Consumo:</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <label class="flex items-center gap-2 p-2 border border-espresso-200 rounded-lg cursor-pointer hover:bg-espresso-50">
+                            <input type="radio" name="order-type" value="Mesa Exterior" checked class="text-terracotta-600 focus:ring-terracotta-500">
+                            <span>Mesa al aire libre</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 border border-espresso-200 rounded-lg cursor-pointer hover:bg-espresso-50">
+                            <input type="radio" name="order-type" value="Para Llevar" class="text-terracotta-600 focus:ring-terracotta-500">
+                            <span>Para Llevar (Express)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="checkoutWhatsApp()" class="w-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    Enviar Pedido por WhatsApp
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Outdoor Table Reservation Modal -->
+    <div id="reservation-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div onclick="closeModal()" class="absolute inset-0 bg-espresso-950/70 backdrop-blur-sm"></div>
+
+        <!-- Modal Box -->
+        <div class="relative bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-espresso-200 z-10 transform scale-95 transition-transform duration-300" id="modal-box">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-espresso-400 hover:text-espresso-900 p-2 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-terracotta-500/10 text-terracotta-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-chair"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-espresso-950">Reserva tu Mesa Exterior</h3>
+                <p class="text-xs text-espresso-600 mt-1">Garantiza tu lugar en la terraza sin costo de apartado.</p>
+            </div>
+
+            <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-espresso-800 mb-1">Nombre Completo</label>
+                    <input type="text" required placeholder="Ej. Ana Lucía Morales" class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-espresso-800 mb-1">Fecha</label>
+                        <input type="date" required class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-espresso-800 mb-1">Hora Aproximada</label>
+                        <select required class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                            <option value="">Seleccionar...</option>
+                            <option value="08:00">08:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="16:00">04:00 PM</option>
+                            <option value="18:00">06:00 PM</option>
+                            <option value="20:00">08:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-espresso-800 mb-1">Número de Personas</label>
+                        <select required class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                            <option value="1-2">1 - 2 personas</option>
+                            <option value="3-4">3 - 4 personas</option>
+                            <option value="5+">5+ personas (Mesa grande)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-espresso-800 mb-1">¿Asistes con Mascota?</label>
+                        <select class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí, 1 perro/gato</option>
+                            <option value="Sí (Varios)">Sí, más de uno</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-espresso-800 mb-1">Notas especiales (Opcional)</label>
+                    <input type="text" placeholder="Ej. Necesitamos enchufe cerca para laptop..." class="w-full px-3.5 py-2.5 border border-espresso-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500">
+                </div>
+
+                <button type="submit" class="w-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold py-3.5 rounded-xl shadow-lg transition-all text-sm mt-2">
+                    Confirmar Solicitud de Mesa
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-espresso-950 text-white px-5 py-3 rounded-xl shadow-2xl border border-espresso-800 text-xs font-semibold flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toast-message">Producto agregado a la orden express.</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-espresso-950 text-espresso-300 border-t border-espresso-800/80 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-espresso-800/60">
+
+                <!-- Col 1: Brand -->
+                <div class="space-y-4 md:col-span-1">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-terracotta-500 flex items-center justify-center text-white font-serif font-bold text-lg">
+                            T
+                        </div>
+                        <span class="font-serif font-bold text-xl text-white">Café Tobyaz</span>
+                    </a>
+                    <p class="text-xs text-espresso-400 leading-relaxed">
+                        El centro de reunión por excelencia de la comunidad. Café de especialidad, cocina express artesanal y mesas al aire libre.
+                    </p>
+                    <div class="flex gap-3 pt-2">
+                        <a href="#" class="w-8 h-8 rounded-full bg-espresso-900 border border-espresso-800 flex items-center justify-center text-espresso-300 hover:text-white hover:bg-terracotta-500 transition-colors">
+                            <i class="fa-brands fa-instagram text-xs"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-espresso-900 border border-espresso-800 flex items-center justify-center text-espresso-300 hover:text-white hover:bg-terracotta-500 transition-colors">
+                            <i class="fa-brands fa-facebook-f text-xs"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-espresso-900 border border-espresso-800 flex items-center justify-center text-espresso-300 hover:text-white hover:bg-terracotta-500 transition-colors">
+                            <i class="fa-brands fa-tiktok text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-4">Explora</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="#about" class="hover:text-terracotta-500 transition-colors">Nuestra Historia</a></li>
+                        <li><a href="#terrace" class="hover:text-terracotta-500 transition-colors">Mesas al Aire Libre</a></li>
+                        <li><a href="#menu" class="hover:text-terracotta-500 transition-colors">Menú Express completo</a></li>
+                        <li><a href="#community" class="hover:text-terracotta-500 transition-colors">Eventos comunitarios</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Express Menu Highlights -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-4">Lo Más Pedido</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><span class="hover:text-terracotta-500 transition-colors cursor-pointer" onclick="setActiveCategory('espresso')">Flat White Tostado Especial</span></li>
+                        <li><span class="hover:text-terracotta-500 transition-colors cursor-pointer" onclick="setActiveCategory('cocina')">Ciabatta de Pastrami & Gorgonzola</span></li>
+                        <li><span class="hover:text-terracotta-500 transition-colors cursor-pointer" onclick="setActiveCategory('cocina')">Tostado de Aguacate & Huevo Poché</span></li>
+                        <li><span class="hover:text-terracotta-500 transition-colors cursor-pointer" onclick="setActiveCategory('frias')">Cold Brew de Naranja Infusionada</span></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm mb-2">Boletín del Barrio</h4>
+                    <p class="text-xs text-espresso-400 mb-4">Recibe noticias de eventos acústicos y nuevos platillos de temporada.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="tu.email@ejemplo.com" class="w-full px-3 py-2 bg-espresso-900 border border-espresso-800 rounded-lg text-xs text-white focus:outline-none focus:border-terracotta-500">
+                        <button type="submit" class="w-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold py-2 rounded-lg text-xs transition-colors">
+                            Suscribirme
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-espresso-500 gap-4">
+                <p>© 2026 Café Tobyaz - Café Cocina Express. Todos los derechos reservados.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:underline">Aviso de Privacidad</a>
+                    <a href="#" class="hover:underline">Términos del Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Items Database
+        const menuItems = [
+            {
+                id: 1,
+                name: "Espresso Doble de Especialidad",
+                category: "espresso",
+                price: 45,
+                tags: ["Orgánico", "Tueste Casa"],
+                description: "Extracción doble de granos 100% arábica tostados semanalmente. Notas a chocolate amargo y avellana.",
+                image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 2,
+                name: "Flat White Velvet",
+                category: "espresso",
+                price: 65,
+                tags: ["Recomendado"],
+                description: "Shot doble espresso cremoso con microespuma de leche texturizada a la perfección.",
+                image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 3,
+                name: "Ciabatta Pastrami & Gorgonzola",
+                category: "cocina",
+                price: 135,
+                tags: ["Favorito Express"],
+                description: "Pan ciabatta artesanal de masa madre, pastrami horneado, queso gorgonzola, rúcula y mostaza ahumada.",
+                image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 4,
+                name: "Tostado de Aguacate & Huevo Poché",
+                category: "cocina",
+                price: 110,
+                tags: ["Vegetariano"],
+                description: "Hazaña de pan rústico con aguacate hass laminado, huevo poché orgánico, chile quebrado y semillas de sésamo.",
+                image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 5,
+                name: "Cold Brew de Naranja Tónica",
+                category: "frias",
+                price: 75,
+                tags: ["Frío & Refrescante"],
+                description: "Extracción en frío por 18 horas servido sobre hielo, agua tónica de autor y rodaja de naranja deshidratada.",
+                image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 6,
+                name: "Matcha Latte Ceremonial Helado",
+                category: "frias",
+                price: 80,
+                tags: ["Antioxidante"],
+                description: "Matcha de grado ceremonial directo de Uji, Japón, batido al momento con leche de avena.",
+                image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 7,
+                name: "Croissant Artesanal de Almendras",
+                category: "postres",
+                price: 55,
+                tags: ["Recién Horneado"],
+                description: "Hojaldre elaboradamente laminado con mantequilla francesa, relleno de frangipane y almendras tostadas.",
+                image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 8,
+                name: "Cheesecake de Frutos del Bosque",
+                category: "postres",
+                price: 70,
+                tags: ["Sin Gluten Opcional"],
+                description: "Receta tradicional estilo Nueva York sobre base crujiente de galleta y jalea artesanal de moras.",
+                image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=400&q=80"
+            }
+        ];
+
+        let cart = [];
+        let activeCategory = 'all';
+
+        // Render Menu Items
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            const searchQuery = document.getElementById('menu-search').value.toLowerCase();
+
+            const filtered = menuItems.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery) || item.description.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-espresso-500">
+                        <i class="fa-solid fa-mug-hot text-4xl mb-3 block"></i>
+                        <p class="text-sm">No encontramos platillos que coincidan con tu búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="bg-white rounded-2xl overflow-hidden border border-espresso-200/80 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 flex gap-1">
+                                ${item.tags.map(tag => `<span class="bg-espresso-950/80 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-lg text-espresso-950 leading-snug">${item.name}</h3>
+                                <span class="font-bold text-terracotta-600 text-base ml-2">$${item.price.toFixed(2)}</span>
+                            </div>
+                            <p class="text-xs text-espresso-600 leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-0">
+                        <button onclick="addToCart(${item.id})" class="w-full bg-espresso-100 hover:bg-terracotta-500 text-espresso-900 hover:text-white font-semibold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Agregar al Pedido Express
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Category Tab Switching
+        function setActiveCategory(cat) {
+            activeCategory = cat;
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-espresso-950', 'text-white', 'shadow-sm');
+                btn.classList.add('text-espresso-700', 'hover:bg-espresso-200/60');
+            });
+            event.currentTarget.classList.remove('text-espresso-700', 'hover:bg-espresso-200/60');
+            event.currentTarget.classList.add('bg-espresso-950', 'text-white', 'shadow-sm');
+            renderMenu();
+        }
+
+        // Filter search input wrapper
+        function filterMenu() {
+            renderMenu();
+        }
+
+        // Cart Actions
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            const existing = cart.find(i => i.id === id);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Agregado: ${item.name}`);
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+
+            badge.textContent = totalItems;
+            if (totalItems > 0) {
+                badge.classList.remove('scale-0');
+                badge.classList.add('scale-100');
+            } else {
+                badge.classList.remove('scale-100');
+                badge.classList.add('scale-0');
+            }
+
+            const itemsContainer = document.getElementById('cart-items-list');
+            const subtotalEl = document.getElementById('cart-subtotal');
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-espresso-400">
+                        <i class="fa-solid fa-basket-shopping text-3xl mb-2"></i>
+                        <p class="text-xs">Tu orden está vacía actualmente.</p>
+                    </div>
+                `;
+                subtotalEl.textContent = "$0.00";
+                return;
+            }
+
+            let total = 0;
+            itemsContainer.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="flex items-center justify-between bg-espresso-50 p-3 rounded-xl border border-espresso-200/60 text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.image}" class="w-10 h-10 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-bold text-espresso-950">${item.name}</h4>
+                                <span class="text-espresso-500">$${item.price.toFixed(2)} c/u</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-md bg-white border border-espresso-300 flex items-center justify-center font-bold text-espresso-800 hover:bg-espresso-200">-</button>
+                            <span class="font-bold text-sm text-espresso-950 w-4 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-md bg-white border border-espresso-300 flex items-center justify-center font-bold text-espresso-800 hover:bg-espresso-200">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+
+            if (drawer.classList.contains('opacity-0')) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                panel.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                showToast("Tu carrito está vacío. Agrega algo primero.");
+                return;
+            }
+
+            const orderType = document.querySelector('input[name="order-type"]:checked').value;
+            let text = `¡Hola Café Tobyaz! ☕ Quiero realizar un pedido express:\n\n`;
+
+            cart.forEach(item => {
+                text += `• ${item.quantity}x ${item.name} ($${(item.price * item.quantity).toFixed(2)})\n`;
+            });
+
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            text += `\n*Modalidad:* ${orderType}\n`;
+            text += `*Total estimado:* $${subtotal.toFixed(2)}\n\n`;
+            text += `¿Me podrían confirmar el tiempo de preparación? Gracias.`;
+
+            const encoded = encodeURIComponent(text);
+            window.open(`https://wa.me/525587654321?text=${encoded}`, '_blank');
+        }
+
+        // Modal Controls
+        function openModal() {
+            const modal = document.getElementById('reservation-modal');
+            const box = document.getElementById('modal-box');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('reservation-modal');
+            const box = document.getElementById('modal-box');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+        }
+
+        function handleReservation(e) {
+            e.preventDefault();
+            closeModal();
+            showToast("¡Solicitud enviada! Nos pondremos en contacto rápido por WhatsApp.");
+            e.target.reset();
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast("¡Gracias por unirte a la comunidad del barrio!");
+            e.target.reset();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-xl');
+            } else {
+                nav.classList.remove('shadow-xl');
+            }
+        });
+
+        // Initialize Page
+        window.onload = function() {
+            renderMenu();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
